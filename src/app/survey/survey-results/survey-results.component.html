@@ -1,0 +1,149 @@
+<!-- Header -->
+<header class="app-header">
+  <img src="verdeesperanza-removebg-preview.png" alt="Verde Esperanza" />
+  <div class="header-info">
+    <h1>Resultados de Encuesta</h1>
+    @if (selectedSession(); as s) {
+      <span class="location-name">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        {{ s.location_name }}
+      </span>
+    }
+  </div>
+  <div class="header-actions">
+    @if (isLive()) {
+      <span class="badge badge-live">En vivo</span>
+    }
+    <button class="btn-icon" title="Cerrar sesión" (click)="logout()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    </button>
+  </div>
+</header>
+
+<main class="results-container">
+  @if (loading()) {
+    <div class="loading-grid">
+      <div class="skeleton" style="height: 88px; border-radius: 14px;"></div>
+      <div class="skeleton" style="height: 260px; border-radius: 14px;"></div>
+      <div class="skeleton" style="height: 260px; border-radius: 14px;"></div>
+    </div>
+  } @else {
+    <!-- Session selector -->
+    @if (sessions().length > 1) {
+      <div class="session-selector animate-fade-in">
+        <label for="session-select">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+          Sesión
+        </label>
+        <select id="session-select" class="form-input" [ngModel]="selectedSession()?.id" (ngModelChange)="onSessionChange($event)">
+          @for (s of sessions(); track s.id) {
+            <option [value]="s.id">
+              {{ s.location_name }}{{ s.is_active ? ' (Activa)' : '' }}
+            </option>
+          }
+        </select>
+      </div>
+    }
+
+    @if (stats(); as st) {
+      <!-- Total counter -->
+      <div class="counter-card card animate-scale-in">
+        <div class="counter-inner">
+          <div>
+            <div class="counter-number">{{ displayedCount() }}</div>
+            <div class="counter-label">personas encuestadas</div>
+          </div>
+          <div class="counter-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+        </div>
+        @if (lastResponseTime(); as lrt) {
+          <div class="last-response animate-fade-in">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Última respuesta {{ getTimeSince(lrt) }}
+          </div>
+        }
+      </div>
+
+      <!-- Charts grid -->
+      <div class="charts-grid">
+        <!-- Conocía la lista -->
+        <div class="card chart-card animate-fade-in-up delay-1">
+          <h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            ¿Conocían la lista?
+          </h3>
+          <div class="chart-wrapper">
+            <canvas baseChart
+              [type]="'doughnut'"
+              [data]="conociaChartData()"
+              [options]="doughnutOptions">
+            </canvas>
+          </div>
+          <div class="chart-stats">
+            <div class="stat-row">
+              <span class="stat-dot green"></span>
+              <span>Sí: {{ st.conocia_lista.si }} ({{ getPercentage(st.conocia_lista.si, st.total_responses) }}%)</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-dot gray"></span>
+              <span>No: {{ st.conocia_lista.no }} ({{ getPercentage(st.conocia_lista.no, st.total_responses) }}%)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Opinión propuestas -->
+        <div class="card chart-card animate-fade-in-up delay-2">
+          <h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            ¿Qué tal las propuestas?
+          </h3>
+          <div class="chart-wrapper">
+            <canvas baseChart
+              [type]="'bar'"
+              [data]="opinionChartData()"
+              [options]="barOptions">
+            </canvas>
+          </div>
+          <div class="chart-stats">
+            <div class="stat-row">
+              <span class="stat-dot light-green"></span>
+              <span>Buenas: {{ st.opinion_propuestas.buenas }} ({{ getPercentage(st.opinion_propuestas.buenas, st.total_responses) }}%)</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-dot green"></span>
+              <span>Muy buenas: {{ st.opinion_propuestas.muy_buenas }} ({{ getPercentage(st.opinion_propuestas.muy_buenas, st.total_responses) }}%)</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-dot red"></span>
+              <span>Malas: {{ st.opinion_propuestas.malas }} ({{ getPercentage(st.opinion_propuestas.malas, st.total_responses) }}%)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Propuestas nuevas -->
+      <div class="card proposals-card animate-fade-in-up delay-3">
+        <h3>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Propuestas de los socios
+        </h3>
+        @if (st.propuestas_nuevas.length === 0) {
+          <p class="empty-text">Aún no hay propuestas registradas.</p>
+        } @else {
+          <div class="proposals-list">
+            @for (p of st.propuestas_nuevas; track p.created_at) {
+              <div class="proposal-item animate-fade-in">
+                <div class="proposal-text">{{ p.text }}</div>
+                <div class="proposal-time">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  {{ p.created_at | date:'short' }}
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  }
+</main>

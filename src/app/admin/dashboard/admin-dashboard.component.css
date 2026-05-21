@@ -1,0 +1,222 @@
+.admin-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.loading-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Sections ── */
+.section {
+  margin-bottom: 28px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+
+/* ── Active session card ── */
+.active-session-card {
+  border-left: 3px solid var(--accent);
+  background: linear-gradient(135deg, var(--white) 0%, rgba(139, 195, 74, 0.03) 100%);
+}
+
+.session-info {
+  margin-bottom: 18px;
+}
+
+.session-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.session-header h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  letter-spacing: -0.01em;
+}
+
+.session-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.84rem;
+  color: #616161;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.response-count {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.session-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+/* ── Confirm end ── */
+.confirm-end {
+  width: 100%;
+  padding: 14px 16px;
+  background: #FFF8E1;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid #F9A825;
+}
+
+.confirm-end p {
+  font-size: 0.875rem;
+  margin-bottom: 12px;
+  color: #5D4037;
+}
+
+.confirm-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ── QR reminder ── */
+.qr-reminder {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 11px 14px;
+  background: rgba(46, 125, 50, 0.05);
+  border-radius: var(--radius-sm);
+  font-size: 0.83rem;
+  color: #546E50;
+  border: 1px solid rgba(46, 125, 50, 0.1);
+  line-height: 1.5;
+}
+
+.qr-reminder svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--secondary);
+}
+
+/* ── Empty state ── */
+.empty-state {
+  text-align: center;
+  padding: 36px;
+  color: #9E9E9E;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── New session form ── */
+.new-session-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.warning-text {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.84rem;
+  color: #BF360C;
+  background: #FFF3E0;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid #FF6D00;
+  line-height: 1.5;
+}
+
+.warning-text svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── Spinner inline ── */
+.spinner-sm {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Session cards list ── */
+.sessions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.session-card {
+  cursor: pointer;
+  transition: all var(--transition);
+  border-left: 3px solid var(--gray-medium);
+}
+
+.session-card:hover {
+  border-left-color: var(--secondary);
+  transform: translateX(3px);
+  box-shadow: var(--shadow-md);
+}
+
+.session-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 10px;
+}
+
+.session-card-header h4 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+.session-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 0.8rem;
+  color: #757575;
+}
+
+.session-card-count {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--primary);
+}
