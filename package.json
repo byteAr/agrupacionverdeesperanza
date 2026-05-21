@@ -22,6 +22,7 @@
     "@fingerprintjs/fingerprintjs": "^5.2.0",
     "@supabase/supabase-js": "^2.106.1",
     "chart.js": "^4.5.1",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "ng2-charts": "^8.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

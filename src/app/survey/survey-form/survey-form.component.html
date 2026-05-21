@@ -107,41 +107,104 @@
 
       <!-- Pregunta 1 -->
       <div class="form-group animate-fade-in-up delay-4">
-        <label>¿Conocías la lista "Agrupación Verde Esperanza"? <span class="required">*</span></label>
+        <label>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="label-icon"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
+          ¿Conocías la lista "Agrupación Verde Esperanza"? <span class="required">*</span>
+        </label>
         <div class="radio-cards">
-          <div class="radio-card">
+          <div class="radio-card radio-card-green">
             <input type="radio" id="conocia_si" formControlName="conocia_lista" value="Sí" />
             <label for="conocia_si">Sí</label>
           </div>
-          <div class="radio-card">
+          <div class="radio-card radio-card-dark">
             <input type="radio" id="conocia_no" formControlName="conocia_lista" value="No" />
             <label for="conocia_no">No</label>
+          </div>
+          <div class="radio-card radio-card-gray">
+            <input type="radio" id="conocia_nose" formControlName="conocia_lista" value="No sé" />
+            <label for="conocia_nose">No sé</label>
           </div>
         </div>
       </div>
 
       <!-- Pregunta 2 -->
       <div class="form-group animate-fade-in-up delay-5">
-        <label>¿Qué tal te parecieron las propuestas? <span class="required">*</span></label>
+        <label>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="label-icon"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          ¿Conocías nuestras propuestas? <span class="required">*</span>
+        </label>
         <div class="radio-cards">
-          <div class="radio-card">
-            <input type="radio" id="opinion_buenas" formControlName="opinion_propuestas" value="Buenas" />
-            <label for="opinion_buenas">Buenas</label>
+          <div class="radio-card radio-card-green">
+            <input type="radio" id="opinion_si" formControlName="opinion_propuestas" value="Sí" />
+            <label for="opinion_si">Sí</label>
           </div>
-          <div class="radio-card">
-            <input type="radio" id="opinion_muybuenas" formControlName="opinion_propuestas" value="Muy buenas" />
-            <label for="opinion_muybuenas">Muy buenas</label>
+          <div class="radio-card radio-card-dark">
+            <input type="radio" id="opinion_no" formControlName="opinion_propuestas" value="No" />
+            <label for="opinion_no">No</label>
           </div>
-          <div class="radio-card">
-            <input type="radio" id="opinion_malas" formControlName="opinion_propuestas" value="Malas" />
-            <label for="opinion_malas">Malas</label>
+          <div class="radio-card radio-card-gray">
+            <input type="radio" id="opinion_nose" formControlName="opinion_propuestas" value="No sé" />
+            <label for="opinion_nose">No sé</label>
           </div>
         </div>
       </div>
 
-      <!-- Pregunta 3 -->
+      <!-- Pregunta 3: Voto electrónico -->
       <div class="form-group animate-fade-in-up delay-6">
-        <label for="propuesta">¿Qué otra propuesta te gustaría incluir? <span class="optional">(opcional)</span></label>
+        <label>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="label-icon"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          ¿Estás de acuerdo con el voto electrónico? <span class="required">*</span>
+        </label>
+        <div class="radio-cards">
+          <div class="radio-card radio-card-green">
+            <input type="radio" id="voto_si" formControlName="voto_electronico" value="Sí" />
+            <label for="voto_si">Sí</label>
+          </div>
+          <div class="radio-card radio-card-dark">
+            <input type="radio" id="voto_no" formControlName="voto_electronico" value="No" />
+            <label for="voto_no">No</label>
+          </div>
+          <div class="radio-card radio-card-gray">
+            <input type="radio" id="voto_nose" formControlName="voto_electronico" value="No sé" />
+            <label for="voto_nose">No sé</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pregunta 4: Simulación de voto -->
+      <div class="form-group animate-fade-in-up delay-6">
+        <div class="simulacion-header">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="label-icon"><path d="M5 3a2 2 0 0 0-2 2"/><path d="M19 3a2 2 0 0 1 2 2"/><path d="M21 19a2 2 0 0 1-2 2"/><path d="M5 21a2 2 0 0 1-2-2"/><path d="M9 3h1"/><path d="M9 21h1"/><path d="M14 3h1"/><path d="M14 21h1"/><path d="M3 9v1"/><path d="M21 9v1"/><path d="M3 14v1"/><path d="M21 14v1"/><rect x="7" y="7" width="10" height="10" rx="1"/><path d="m9 12 2 2 4-4"/></svg>
+          <span class="label-text">Simulación de voto <span class="optional">(opcional)</span></span>
+          <span class="simulacion-badge">SIMULADO</span>
+        </div>
+        <p class="simulacion-desc">Esta es una votación simulada, no oficial. ¿A qué lista votarías?</p>
+        <div class="radio-cards lista-cards">
+          <div class="radio-card radio-card-naranja">
+            <input type="radio" id="lista_naranja" formControlName="voto_simulado" value="NARANJA" />
+            <label for="lista_naranja">Lista Naranja</label>
+          </div>
+          <div class="radio-card radio-card-roja">
+            <input type="radio" id="lista_roja" formControlName="voto_simulado" value="ROJA" />
+            <label for="lista_roja">Lista Roja</label>
+          </div>
+          <div class="radio-card radio-card-amarilla">
+            <input type="radio" id="lista_amarilla" formControlName="voto_simulado" value="AMARILLA" />
+            <label for="lista_amarilla">Lista Amarilla</label>
+          </div>
+          <div class="radio-card radio-card-blanco">
+            <input type="radio" id="lista_blanco" formControlName="voto_simulado" value="BLANCO" />
+            <label for="lista_blanco">Voto en blanco</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pregunta 5 -->
+      <div class="form-group animate-fade-in-up delay-6">
+        <label for="propuesta">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="label-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          ¿Qué otra propuesta te gustaría incluir? <span class="optional">(opcional)</span>
+        </label>
         <textarea id="propuesta" class="form-input" formControlName="propuesta_nueva" placeholder="Escribí tu propuesta acá..." rows="4"></textarea>
       </div>
 

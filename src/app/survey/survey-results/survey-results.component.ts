@@ -1,12 +1,16 @@
 import { Component, OnInit, OnDestroy, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { BaseChartDirective } from 'ng2-charts';
-import { ChartConfiguration } from 'chart.js';
+import { Chart, ChartConfiguration } from 'chart.js';
+import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 import { RealtimeChannel } from '@supabase/supabase-js';
 import { SurveyService } from '../../services/survey.service';
 import { AuthService } from '../../services/auth.service';
 import { SurveySession, SessionStats } from '../../models/survey.models';
+
+Chart.register(DataLabelsPlugin);
 
 @Component({
   selector: 'app-survey-results',
@@ -32,26 +36,54 @@ export class SurveyResultsComponent implements OnInit, OnDestroy {
     const s = this.stats();
     if (!s) return { labels: [], datasets: [] };
     return {
-      labels: ['Sí', 'No'],
+      labels: ['Sí', 'No', 'No sé'],
       datasets: [{
-        data: [s.conocia_lista.si, s.conocia_lista.no],
-        backgroundColor: ['#2E7D32', '#E0E0E0'],
+        data: [s.conocia_lista.si, s.conocia_lista.no, s.conocia_lista.nose],
+        backgroundColor: ['#2E7D32', '#212121', '#9E9E9E'],
         borderWidth: 0,
         hoverOffset: 8
       }]
     };
   });
 
-  opinionChartData = computed<ChartConfiguration<'bar'>['data']>(() => {
+  opinionChartData = computed<ChartConfiguration<'doughnut'>['data']>(() => {
     const s = this.stats();
     if (!s) return { labels: [], datasets: [] };
     return {
-      labels: ['Buenas', 'Muy buenas', 'Malas'],
+      labels: ['Sí', 'No', 'No sé'],
       datasets: [{
-        data: [s.opinion_propuestas.buenas, s.opinion_propuestas.muy_buenas, s.opinion_propuestas.malas],
-        backgroundColor: ['#66BB6A', '#2E7D32', '#D32F2F'],
+        data: [s.opinion_propuestas.si, s.opinion_propuestas.no, s.opinion_propuestas.nose],
+        backgroundColor: ['#2E7D32', '#212121', '#9E9E9E'],
+        borderWidth: 0,
+        hoverOffset: 8
+      }]
+    };
+  });
+
+  votoSimuladoChartData = computed<ChartConfiguration<'bar'>['data']>(() => {
+    const s = this.stats();
+    if (!s) return { labels: [], datasets: [] };
+    return {
+      labels: ['Lista Naranja', 'Lista Roja', 'Lista Amarilla', 'Voto en blanco'],
+      datasets: [{
+        data: [s.voto_simulado.naranja, s.voto_simulado.roja, s.voto_simulado.amarilla, s.voto_simulado.blanco],
+        backgroundColor: ['#E65100', '#C62828', '#F9A825', '#9E9E9E'],
         borderRadius: 8,
         borderSkipped: false
+      }]
+    };
+  });
+
+  votoChartData = computed<ChartConfiguration<'doughnut'>['data']>(() => {
+    const s = this.stats();
+    if (!s) return { labels: [], datasets: [] };
+    return {
+      labels: ['Sí', 'No', 'No sé'],
+      datasets: [{
+        data: [s.voto_electronico.si, s.voto_electronico.no, s.voto_electronico.nose],
+        backgroundColor: ['#2E7D32', '#212121', '#9E9E9E'],
+        borderWidth: 0,
+        hoverOffset: 8
       }]
     };
   });
@@ -61,28 +93,44 @@ export class SurveyResultsComponent implements OnInit, OnDestroy {
     maintainAspectRatio: false,
     cutout: '60%',
     plugins: {
-      legend: { position: 'bottom', labels: { padding: 16, font: { size: 14 } } }
-    },
+      legend: { position: 'bottom', labels: { padding: 16, font: { size: 14 } } },
+      datalabels: { display: false }
+    } as any,
     animation: { animateRotate: true, duration: 800 }
   };
 
-  barOptions: ChartConfiguration<'bar'>['options'] = {
-    responsive: true,
-    maintainAspectRatio: false,
-    indexAxis: 'y',
-    scales: {
-      x: { beginAtZero: true, ticks: { stepSize: 1 } },
-      y: { grid: { display: false } }
-    },
-    plugins: {
-      legend: { display: false }
-    },
-    animation: { duration: 800 }
-  };
+  barOptions = computed<ChartConfiguration<'bar'>['options']>(() => {
+    const s = this.stats();
+    const COLORS = ['#E65100', '#C62828', '#F9A825', '#757575'];
+    const total = s
+      ? s.voto_simulado.naranja + s.voto_simulado.roja + s.voto_simulado.amarilla + s.voto_simulado.blanco
+      : 0;
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 12 } } },
+        y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: 'rgba(0,0,0,0.05)' } }
+      },
+      plugins: {
+        legend: { display: false },
+        datalabels: {
+          anchor: 'end',
+          align: 'end',
+          color: (ctx: any) => COLORS[ctx.dataIndex] ?? '#333',
+          font: { weight: 'bold', size: 15 },
+          formatter: (value: number) => total > 0 ? ((value / total) * 100).toFixed(1) + '%' : '0%'
+        }
+      } as any,
+      animation: { duration: 800 },
+      layout: { padding: { top: 28 } }
+    };
+  });
 
   constructor(
     private surveyService: SurveyService,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -98,6 +146,15 @@ export class SurveyResultsComponent implements OnInit, OnDestroy {
     try {
       const sessions = await this.surveyService.getAllSessions();
       this.sessions.set(sessions);
+
+      const requestedId = this.route.snapshot.queryParamMap.get('session');
+      if (requestedId) {
+        const requested = sessions.find(s => s.id === requestedId);
+        if (requested) {
+          await this.selectSession(requested);
+          return;
+        }
+      }
 
       const active = sessions.find(s => s.is_active);
       if (active) {

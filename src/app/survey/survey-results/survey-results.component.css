@@ -157,8 +157,53 @@
 
 .stat-dot.green       { background: #2E7D32; }
 .stat-dot.light-green { background: #66BB6A; }
-.stat-dot.gray        { background: #BDBDBD; }
+.stat-dot.gray        { background: #9E9E9E; }
+.stat-dot.dark        { background: #212121; }
 .stat-dot.red         { background: #D32F2F; }
+
+/* ── Simulación de voto ── */
+.simulacion-card {
+  margin-bottom: 20px;
+}
+
+.simulacion-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 4px;
+}
+
+.simulacion-badge-result {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  background: #FFF3E0;
+  color: #E65100;
+  border: 1px solid #FFCC80;
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin-left: 2px;
+}
+
+.simulacion-desc-result {
+  font-size: 0.78rem;
+  color: #9E9E9E;
+  font-style: italic;
+  margin-bottom: 16px;
+}
+
+.chart-wrapper-tall {
+  height: 240px;
+}
+
+.simulacion-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 16px;
+}
 
 /* ── Proposals ── */
 .proposals-card h3 {

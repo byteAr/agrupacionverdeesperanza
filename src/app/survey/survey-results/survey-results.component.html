@@ -86,38 +86,106 @@
               <span>Sí: {{ st.conocia_lista.si }} ({{ getPercentage(st.conocia_lista.si, st.total_responses) }}%)</span>
             </div>
             <div class="stat-row">
-              <span class="stat-dot gray"></span>
+              <span class="stat-dot dark"></span>
               <span>No: {{ st.conocia_lista.no }} ({{ getPercentage(st.conocia_lista.no, st.total_responses) }}%)</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-dot gray"></span>
+              <span>No sé: {{ st.conocia_lista.nose }} ({{ getPercentage(st.conocia_lista.nose, st.total_responses) }}%)</span>
             </div>
           </div>
         </div>
 
-        <!-- Opinión propuestas -->
+        <!-- Conocía propuestas -->
         <div class="card chart-card animate-fade-in-up delay-2">
           <h3>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-            ¿Qué te parecieron las propuestas?
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            ¿Conocías nuestras propuestas?
           </h3>
           <div class="chart-wrapper">
             <canvas baseChart
-              [type]="'bar'"
+              [type]="'doughnut'"
               [data]="opinionChartData()"
-              [options]="barOptions">
+              [options]="doughnutOptions">
             </canvas>
           </div>
           <div class="chart-stats">
             <div class="stat-row">
-              <span class="stat-dot light-green"></span>
-              <span>Buenas: {{ st.opinion_propuestas.buenas }} ({{ getPercentage(st.opinion_propuestas.buenas, st.total_responses) }}%)</span>
+              <span class="stat-dot green"></span>
+              <span>Sí: {{ st.opinion_propuestas.si }} ({{ getPercentage(st.opinion_propuestas.si, st.total_responses) }}%)</span>
             </div>
+            <div class="stat-row">
+              <span class="stat-dot dark"></span>
+              <span>No: {{ st.opinion_propuestas.no }} ({{ getPercentage(st.opinion_propuestas.no, st.total_responses) }}%)</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-dot gray"></span>
+              <span>No sé: {{ st.opinion_propuestas.nose }} ({{ getPercentage(st.opinion_propuestas.nose, st.total_responses) }}%)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Voto electrónico -->
+        <div class="card chart-card animate-fade-in-up delay-3">
+          <h3>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            ¿Estás de acuerdo con el voto electrónico?
+          </h3>
+          <div class="chart-wrapper">
+            <canvas baseChart
+              [type]="'doughnut'"
+              [data]="votoChartData()"
+              [options]="doughnutOptions">
+            </canvas>
+          </div>
+          <div class="chart-stats">
             <div class="stat-row">
               <span class="stat-dot green"></span>
-              <span>Muy buenas: {{ st.opinion_propuestas.muy_buenas }} ({{ getPercentage(st.opinion_propuestas.muy_buenas, st.total_responses) }}%)</span>
+              <span>Sí: {{ st.voto_electronico.si }} ({{ getPercentage(st.voto_electronico.si, st.total_responses) }}%)</span>
             </div>
             <div class="stat-row">
-              <span class="stat-dot red"></span>
-              <span>Malas: {{ st.opinion_propuestas.malas }} ({{ getPercentage(st.opinion_propuestas.malas, st.total_responses) }}%)</span>
+              <span class="stat-dot dark"></span>
+              <span>No: {{ st.voto_electronico.no }} ({{ getPercentage(st.voto_electronico.no, st.total_responses) }}%)</span>
             </div>
+            <div class="stat-row">
+              <span class="stat-dot gray"></span>
+              <span>No sé: {{ st.voto_electronico.nose }} ({{ getPercentage(st.voto_electronico.nose, st.total_responses) }}%)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Simulación de voto -->
+      <div class="card chart-card simulacion-card animate-fade-in-up delay-3">
+        <h3>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3a2 2 0 0 0-2 2"/><path d="M19 3a2 2 0 0 1 2 2"/><path d="M21 19a2 2 0 0 1-2 2"/><path d="M5 21a2 2 0 0 1-2-2"/><path d="M9 3h1"/><path d="M9 21h1"/><path d="M14 3h1"/><path d="M14 21h1"/><path d="M3 9v1"/><path d="M21 9v1"/><path d="M3 14v1"/><path d="M21 14v1"/><rect x="7" y="7" width="10" height="10" rx="1"/><path d="m9 12 2 2 4-4"/></svg>
+          Simulación de voto
+          <span class="simulacion-badge-result">SIMULADO</span>
+        </h3>
+        <p class="simulacion-desc-result">Votación no oficial — solo a modo ilustrativo</p>
+        <div class="chart-wrapper chart-wrapper-tall">
+          <canvas baseChart
+            [type]="'bar'"
+            [data]="votoSimuladoChartData()"
+            [options]="barOptions()">
+          </canvas>
+        </div>
+        <div class="chart-stats simulacion-stats">
+          <div class="stat-row">
+            <span class="stat-dot" style="background:#E65100"></span>
+            <span>Lista Naranja: {{ st.voto_simulado.naranja }} ({{ getPercentage(st.voto_simulado.naranja, st.total_responses) }}%)</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-dot" style="background:#C62828"></span>
+            <span>Lista Roja: {{ st.voto_simulado.roja }} ({{ getPercentage(st.voto_simulado.roja, st.total_responses) }}%)</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-dot" style="background:#F9A825"></span>
+            <span>Lista Amarilla: {{ st.voto_simulado.amarilla }} ({{ getPercentage(st.voto_simulado.amarilla, st.total_responses) }}%)</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-dot gray"></span>
+            <span>Voto en blanco: {{ st.voto_simulado.blanco }} ({{ getPercentage(st.voto_simulado.blanco, st.total_responses) }}%)</span>
           </div>
         </div>
       </div>

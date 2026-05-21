@@ -34,6 +34,8 @@ export class SurveyFormComponent implements OnInit {
       telefono: [''],
       conocia_lista: ['', Validators.required],
       opinion_propuestas: ['', Validators.required],
+      voto_electronico: ['', Validators.required],
+      voto_simulado: [''],
       propuesta_nueva: ['']
     });
 

@@ -130,6 +130,143 @@
   font-weight: 600;
 }
 
+/* ── Label con ícono ── */
+label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.label-icon {
+  flex-shrink: 0;
+  color: var(--primary);
+  opacity: 0.75;
+}
+
+/* ── Simulación de voto ── */
+.simulacion-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.label-text {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--gray-dark);
+}
+
+.simulacion-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  background: #FFF3E0;
+  color: #E65100;
+  border: 1px solid #FFCC80;
+  border-radius: 4px;
+  padding: 2px 7px;
+}
+
+.simulacion-desc {
+  font-size: 0.82rem;
+  color: #757575;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.lista-cards {
+  flex-wrap: wrap;
+}
+
+/* ── Radio cards con colores personalizados ── */
+
+/* Verde: Sí */
+.radio-card-green input[type="radio"]:checked + label {
+  border-color: #2E7D32;
+  background: rgba(46, 125, 50, 0.1);
+  color: #2E7D32;
+  box-shadow: 0 0 0 1px #2E7D32;
+}
+.radio-card-green label:hover {
+  border-color: #2E7D32;
+  background: rgba(46, 125, 50, 0.05);
+}
+
+/* Negro: No */
+.radio-card-dark input[type="radio"]:checked + label {
+  border-color: #212121;
+  background: rgba(33, 33, 33, 0.08);
+  color: #212121;
+  box-shadow: 0 0 0 1px #212121;
+}
+.radio-card-dark label:hover {
+  border-color: #424242;
+  background: rgba(33, 33, 33, 0.04);
+}
+
+/* Gris: No sé */
+.radio-card-gray input[type="radio"]:checked + label {
+  border-color: #757575;
+  background: rgba(117, 117, 117, 0.1);
+  color: #424242;
+  box-shadow: 0 0 0 1px #757575;
+}
+.radio-card-gray label:hover {
+  border-color: #9E9E9E;
+  background: rgba(117, 117, 117, 0.05);
+}
+
+/* Naranja */
+.radio-card-naranja input[type="radio"]:checked + label {
+  border-color: #E65100;
+  background: #E65100;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(230, 81, 0, 0.35);
+}
+.radio-card-naranja label:hover {
+  border-color: #E65100;
+  background: rgba(230, 81, 0, 0.08);
+}
+
+/* Roja */
+.radio-card-roja input[type="radio"]:checked + label {
+  border-color: #C62828;
+  background: #C62828;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(198, 40, 40, 0.35);
+}
+.radio-card-roja label:hover {
+  border-color: #C62828;
+  background: rgba(198, 40, 40, 0.08);
+}
+
+/* Amarilla */
+.radio-card-amarilla input[type="radio"]:checked + label {
+  border-color: #F9A825;
+  background: #F9A825;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(249, 168, 37, 0.4);
+}
+.radio-card-amarilla label:hover {
+  border-color: #F9A825;
+  background: rgba(249, 168, 37, 0.08);
+}
+
+/* Blanco / voto en blanco */
+.radio-card-blanco input[type="radio"]:checked + label {
+  border-color: #757575;
+  background: #757575;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(117, 117, 117, 0.3);
+}
+.radio-card-blanco label:hover {
+  border-color: #9E9E9E;
+  background: rgba(117, 117, 117, 0.08);
+}
+
 /* ── Submit button ── */
 .btn-full {
   width: 100%;

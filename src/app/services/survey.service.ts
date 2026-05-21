@@ -109,6 +109,8 @@ export class SurveyService {
         telefono: formData.telefono || null,
         conocia_lista: formData.conocia_lista,
         opinion_propuestas: formData.opinion_propuestas,
+        voto_electronico: formData.voto_electronico || null,
+        voto_simulado: formData.voto_simulado || null,
         propuesta_nueva: formData.propuesta_nueva || null,
         fingerprint_hash: fingerprintHash
       });

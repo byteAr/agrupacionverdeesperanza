@@ -103,7 +103,11 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   viewResults(sessionId?: string): void {
-    this.router.navigate(['/encuesta']);
+    if (sessionId) {
+      this.router.navigate(['/encuesta'], { queryParams: { session: sessionId } });
+    } else {
+      this.router.navigate(['/encuesta']);
+    }
   }
 
   async logout(): Promise<void> {
