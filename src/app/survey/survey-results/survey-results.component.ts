@@ -36,10 +36,10 @@ export class SurveyResultsComponent implements OnInit, OnDestroy {
     const s = this.stats();
     if (!s) return { labels: [], datasets: [] };
     return {
-      labels: ['Sí', 'No', 'No sé'],
+      labels: ['Sí', 'No'],
       datasets: [{
-        data: [s.conocia_lista.si, s.conocia_lista.no, s.conocia_lista.nose],
-        backgroundColor: ['#2E7D32', '#212121', '#9E9E9E'],
+        data: [s.conocia_lista.si, s.conocia_lista.no],
+        backgroundColor: ['#2E7D32', '#212121'],
         borderWidth: 0,
         hoverOffset: 8
       }]
@@ -50,10 +50,10 @@ export class SurveyResultsComponent implements OnInit, OnDestroy {
     const s = this.stats();
     if (!s) return { labels: [], datasets: [] };
     return {
-      labels: ['Sí', 'No', 'No sé'],
+      labels: ['Sí', 'No'],
       datasets: [{
-        data: [s.opinion_propuestas.si, s.opinion_propuestas.no, s.opinion_propuestas.nose],
-        backgroundColor: ['#2E7D32', '#212121', '#9E9E9E'],
+        data: [s.opinion_propuestas.si, s.opinion_propuestas.no],
+        backgroundColor: ['#2E7D32', '#212121'],
         borderWidth: 0,
         hoverOffset: 8
       }]
@@ -78,10 +78,10 @@ export class SurveyResultsComponent implements OnInit, OnDestroy {
     const s = this.stats();
     if (!s) return { labels: [], datasets: [] };
     return {
-      labels: ['Sí', 'No', 'No sé'],
+      labels: ['Sí', 'No'],
       datasets: [{
-        data: [s.voto_electronico.si, s.voto_electronico.no, s.voto_electronico.nose],
-        backgroundColor: ['#2E7D32', '#212121', '#9E9E9E'],
+        data: [s.voto_electronico.si, s.voto_electronico.no],
+        backgroundColor: ['#2E7D32', '#212121'],
         borderWidth: 0,
         hoverOffset: 8
       }]

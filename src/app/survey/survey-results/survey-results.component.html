@@ -2,7 +2,7 @@
 <header class="app-header">
   <img src="verdeesperanza-removebg-preview.png" alt="Verde Esperanza" />
   <div class="header-info">
-    <h1>Resultados de Encuesta</h1>
+    <h1>Resultados de la Simulación</h1>
     @if (selectedSession(); as s) {
       <span class="location-name">
         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -51,7 +51,7 @@
         <div class="counter-inner">
           <div>
             <div class="counter-number">{{ displayedCount() }}</div>
-            <div class="counter-label">personas encuestadas</div>
+            <div class="counter-label">participantes</div>
           </div>
           <div class="counter-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -89,10 +89,6 @@
               <span class="stat-dot dark"></span>
               <span>No: {{ st.conocia_lista.no }} ({{ getPercentage(st.conocia_lista.no, st.total_responses) }}%)</span>
             </div>
-            <div class="stat-row">
-              <span class="stat-dot gray"></span>
-              <span>No sé: {{ st.conocia_lista.nose }} ({{ getPercentage(st.conocia_lista.nose, st.total_responses) }}%)</span>
-            </div>
           </div>
         </div>
 
@@ -118,10 +114,6 @@
               <span class="stat-dot dark"></span>
               <span>No: {{ st.opinion_propuestas.no }} ({{ getPercentage(st.opinion_propuestas.no, st.total_responses) }}%)</span>
             </div>
-            <div class="stat-row">
-              <span class="stat-dot gray"></span>
-              <span>No sé: {{ st.opinion_propuestas.nose }} ({{ getPercentage(st.opinion_propuestas.nose, st.total_responses) }}%)</span>
-            </div>
           </div>
         </div>
 
@@ -146,10 +138,6 @@
             <div class="stat-row">
               <span class="stat-dot dark"></span>
               <span>No: {{ st.voto_electronico.no }} ({{ getPercentage(st.voto_electronico.no, st.total_responses) }}%)</span>
-            </div>
-            <div class="stat-row">
-              <span class="stat-dot gray"></span>
-              <span>No sé: {{ st.voto_electronico.nose }} ({{ getPercentage(st.voto_electronico.nose, st.total_responses) }}%)</span>
             </div>
           </div>
         </div>

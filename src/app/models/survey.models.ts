@@ -13,9 +13,9 @@ export interface SurveyResponse {
   nombre_apellido: string | null;
   dni: string | null;
   telefono: string | null;
-  conocia_lista: 'Sí' | 'No' | 'No sé';
-  opinion_propuestas: 'Sí' | 'No' | 'No sé';
-  voto_electronico: 'Sí' | 'No' | 'No sé';
+  conocia_lista: 'Sí' | 'No';
+  opinion_propuestas: 'Sí' | 'No';
+  voto_electronico: 'Sí' | 'No';
   voto_simulado: 'NARANJA' | 'ROJA' | 'AMARILLA' | 'BLANCO' | null;
   propuesta_nueva: string | null;
   fingerprint_hash: string;
@@ -35,9 +35,9 @@ export interface SurveyFormData {
   nombre_apellido: string;
   dni: string;
   telefono: string;
-  conocia_lista: 'Sí' | 'No' | 'No sé' | '';
-  opinion_propuestas: 'Sí' | 'No' | 'No sé' | '';
-  voto_electronico: 'Sí' | 'No' | 'No sé' | '';
+  conocia_lista: 'Sí' | 'No' | '';
+  opinion_propuestas: 'Sí' | 'No' | '';
+  voto_electronico: 'Sí' | 'No' | '';
   voto_simulado: 'NARANJA' | 'ROJA' | 'AMARILLA' | 'BLANCO' | '';
   propuesta_nueva: string;
 }

@@ -29,8 +29,8 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       </div>
       <img src="verdeesperanza-removebg-preview.png" alt="Verde Esperanza" class="state-logo" />
-      <h2>No hay encuesta activa</h2>
-      <p>En este momento no hay ninguna encuesta disponible. Volvé a intentar más tarde.</p>
+      <h2>No hay simulación activa</h2>
+      <p>En este momento no hay ninguna simulación disponible. Volvé a intentar más tarde.</p>
     </div>
   }
 
@@ -43,7 +43,7 @@
           <path fill="none" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M14 27l7 7 16-16" class="check-path"/>
         </svg>
       </div>
-      <h2>Ya completaste esta encuesta</h2>
+      <h2>Ya completaste esta simulación</h2>
       <p>Gracias por tu participación en <strong>{{ session()!.location_name }}</strong>.</p>
     </div>
   }
@@ -59,7 +59,7 @@
       </div>
       <img src="verdeesperanza-removebg-preview.png" alt="Verde Esperanza" class="state-logo pulse-animation" />
       <h2>¡Gracias por participar!</h2>
-      <p>Tu respuesta fue registrada exitosamente en <strong>{{ session()!.location_name }}</strong>.</p>
+      <p>Los datos han sido guardados exitosamente. Esta es una <strong>simulación de participación en asamblea y voto electrónico</strong>.</p>
     </div>
   }
 
@@ -67,7 +67,7 @@
   @else {
     <div class="form-header animate-fade-in-up">
       <span class="badge badge-live">En vivo</span>
-      <h2>Encuesta — {{ session()!.location_name }}</h2>
+      <h2>Simulación — {{ session()!.location_name }}</h2>
       <p>Completá el formulario para participar</p>
     </div>
 
@@ -120,10 +120,6 @@
             <input type="radio" id="conocia_no" formControlName="conocia_lista" value="No" />
             <label for="conocia_no">No</label>
           </div>
-          <div class="radio-card radio-card-gray">
-            <input type="radio" id="conocia_nose" formControlName="conocia_lista" value="No sé" />
-            <label for="conocia_nose">No sé</label>
-          </div>
         </div>
       </div>
 
@@ -142,10 +138,6 @@
             <input type="radio" id="opinion_no" formControlName="opinion_propuestas" value="No" />
             <label for="opinion_no">No</label>
           </div>
-          <div class="radio-card radio-card-gray">
-            <input type="radio" id="opinion_nose" formControlName="opinion_propuestas" value="No sé" />
-            <label for="opinion_nose">No sé</label>
-          </div>
         </div>
       </div>
 
@@ -163,10 +155,6 @@
           <div class="radio-card radio-card-dark">
             <input type="radio" id="voto_no" formControlName="voto_electronico" value="No" />
             <label for="voto_no">No</label>
-          </div>
-          <div class="radio-card radio-card-gray">
-            <input type="radio" id="voto_nose" formControlName="voto_electronico" value="No sé" />
-            <label for="voto_nose">No sé</label>
           </div>
         </div>
       </div>
@@ -222,7 +210,7 @@
           <span class="spinner"></span> Enviando...
         } @else {
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          Enviar encuesta
+          Enviar simulación
         }
       </button>
     </form>
