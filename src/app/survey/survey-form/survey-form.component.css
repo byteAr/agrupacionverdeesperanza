@@ -130,6 +130,88 @@
   font-weight: 600;
 }
 
+/* ── Step indicator ── */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 20px;
+  padding: 0 8px;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.step-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #E0E0E0;
+  background: #fff;
+  color: #9E9E9E;
+  font-size: 0.9rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.step-item.active .step-dot {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.step-item.done .step-dot {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #fff;
+}
+
+.step-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #9E9E9E;
+  letter-spacing: 0.02em;
+  transition: color 0.3s;
+}
+
+.step-item.active .step-label,
+.step-item.done .step-label {
+  color: var(--primary);
+}
+
+.step-connector {
+  flex: 1;
+  height: 2px;
+  background: #E0E0E0;
+  margin: 0 6px;
+  margin-bottom: 22px;
+  transition: background 0.3s;
+}
+
+.step-connector.filled {
+  background: var(--primary);
+}
+
+/* ── Step nav (botones anterior / siguiente) ── */
+.step-nav {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.step-nav .btn {
+  flex: 1;
+  justify-content: center;
+  gap: 7px;
+}
+
 /* ── Label con ícono ── */
 label {
   display: flex;
@@ -265,6 +347,196 @@ label {
 .radio-card-blanco label:hover {
   border-color: #9E9E9E;
   background: rgba(117, 117, 117, 0.08);
+}
+
+/* ── Sección de préstamo ── */
+.loan-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.loan-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--primary-dark);
+  flex-wrap: wrap;
+}
+
+.loan-desc {
+  font-size: 0.82rem;
+  color: #757575;
+  font-style: italic;
+  margin-top: -12px;
+}
+
+.loan-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--gray-dark);
+  margin-bottom: 10px;
+}
+
+/* Cards de monto */
+.monto-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.monto-card {
+  border: 2px solid #E0E0E0;
+  border-radius: var(--radius-sm);
+  padding: 16px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition);
+  background: #fff;
+}
+
+.monto-card:hover {
+  border-color: var(--primary);
+  background: rgba(46, 125, 50, 0.04);
+}
+
+.monto-card.selected {
+  border-color: var(--primary);
+  background: rgba(46, 125, 50, 0.08);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.monto-amount {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  letter-spacing: -0.02em;
+}
+
+.monto-label {
+  font-size: 0.72rem;
+  color: #9E9E9E;
+  margin-top: 2px;
+}
+
+/* Grid de cuotas */
+.cuotas-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.cuota-card {
+  border: 2px solid #E0E0E0;
+  border-radius: var(--radius-sm);
+  padding: 14px 12px;
+  cursor: pointer;
+  transition: all var(--transition);
+  background: #fff;
+}
+
+.cuota-card:hover {
+  border-color: var(--secondary);
+  background: rgba(102, 187, 106, 0.04);
+}
+
+.cuota-card.selected {
+  border-color: var(--primary);
+  background: rgba(46, 125, 50, 0.08);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.cuota-num {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+.cuota-interes {
+  font-size: 0.75rem;
+  color: #F57C00;
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+.cuota-interes.free-tag {
+  color: #2E7D32;
+}
+
+.cuota-mensual {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--gray-dark);
+  margin-top: 8px;
+  letter-spacing: -0.02em;
+}
+
+.cuota-mensual span {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #9E9E9E;
+}
+
+.cuota-total {
+  font-size: 0.72rem;
+  color: #9E9E9E;
+  margin-top: 3px;
+}
+
+/* Resumen del préstamo */
+.loan-summary {
+  background: linear-gradient(135deg, rgba(46,125,50,0.06), rgba(102,187,106,0.06));
+  border: 1.5px solid rgba(46, 125, 50, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+}
+
+.loan-summary-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.loan-summary-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: #555;
+}
+
+.summary-row strong {
+  color: var(--gray-dark);
+  font-weight: 700;
+}
+
+.total-row {
+  border-top: 1px solid rgba(46, 125, 50, 0.2);
+  padding-top: 8px;
+  margin-top: 4px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+.total-row strong {
+  font-size: 1.1rem;
+  color: var(--primary);
 }
 
 /* ── Submit button ── */

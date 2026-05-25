@@ -205,6 +205,126 @@
   gap: 6px 16px;
 }
 
+/* ── Préstamos en resultados ── */
+.loans-results-card {
+  margin-bottom: 20px;
+}
+
+.loans-results-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 16px;
+}
+
+.loans-summary-bar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--gradient);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.loans-summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.loans-summary-num {
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.loans-summary-num.total-amount {
+  font-size: 1.4rem;
+}
+
+.loans-summary-label {
+  font-size: 0.78rem;
+  opacity: 0.85;
+}
+
+.loans-summary-divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(255,255,255,0.3);
+}
+
+.loans-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.loan-result-item {
+  padding: 14px 16px;
+  background: var(--gray-light);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--primary);
+}
+
+.loan-result-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.loan-result-monto {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  letter-spacing: -0.02em;
+}
+
+.loan-result-cuotas {
+  font-size: 0.82rem;
+  color: #555;
+}
+
+.loan-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(245, 124, 0, 0.12);
+  color: #E65100;
+  border: 1px solid rgba(245, 124, 0, 0.25);
+}
+
+.loan-tag.free-tag {
+  background: rgba(46, 125, 50, 0.1);
+  color: #2E7D32;
+  border-color: rgba(46, 125, 50, 0.2);
+}
+
+.loan-result-motivo {
+  font-size: 0.875rem;
+  color: var(--gray-dark);
+  line-height: 1.45;
+  margin-bottom: 5px;
+}
+
+.loan-result-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  color: #9E9E9E;
+}
+
 /* ── Proposals ── */
 .proposals-card h3 {
   display: flex;

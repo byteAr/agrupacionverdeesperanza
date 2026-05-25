@@ -8,7 +8,7 @@ import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 import { RealtimeChannel } from '@supabase/supabase-js';
 import { SurveyService } from '../../services/survey.service';
 import { AuthService } from '../../services/auth.service';
-import { SurveySession, SessionStats } from '../../models/survey.models';
+import { SurveySession, SessionStats, LoanRequest } from '../../models/survey.models';
 
 Chart.register(DataLabelsPlugin);
 
@@ -23,26 +23,29 @@ export class SurveyResultsComponent implements OnInit, OnDestroy {
   sessions = signal<SurveySession[]>([]);
   selectedSession = signal<SurveySession | null>(null);
   stats = signal<SessionStats | null>(null);
+  loanRequests = signal<LoanRequest[]>([]);
   loading = signal(true);
   lastResponseTime = signal<Date | null>(null);
   displayedCount = signal(0);
 
   private channel: RealtimeChannel | null = null;
+  private loanChannel: RealtimeChannel | null = null;
   private countInterval: any = null;
 
   isLive = computed(() => this.selectedSession()?.is_active ?? false);
+
+  totalLoansAmount = computed(() =>
+    this.loanRequests().reduce((sum, l) => sum + Number(l.monto), 0)
+  );
+
+  // ── Chart data ──────────────────────────────────────────────────
 
   conociaChartData = computed<ChartConfiguration<'doughnut'>['data']>(() => {
     const s = this.stats();
     if (!s) return { labels: [], datasets: [] };
     return {
       labels: ['Sí', 'No'],
-      datasets: [{
-        data: [s.conocia_lista.si, s.conocia_lista.no],
-        backgroundColor: ['#2E7D32', '#212121'],
-        borderWidth: 0,
-        hoverOffset: 8
-      }]
+      datasets: [{ data: [s.conocia_lista.si, s.conocia_lista.no], backgroundColor: ['#2E7D32', '#212121'], borderWidth: 0, hoverOffset: 8 }]
     };
   });
 
@@ -51,12 +54,25 @@ export class SurveyResultsComponent implements OnInit, OnDestroy {
     if (!s) return { labels: [], datasets: [] };
     return {
       labels: ['Sí', 'No'],
-      datasets: [{
-        data: [s.opinion_propuestas.si, s.opinion_propuestas.no],
-        backgroundColor: ['#2E7D32', '#212121'],
-        borderWidth: 0,
-        hoverOffset: 8
-      }]
+      datasets: [{ data: [s.opinion_propuestas.si, s.opinion_propuestas.no], backgroundColor: ['#2E7D32', '#212121'], borderWidth: 0, hoverOffset: 8 }]
+    };
+  });
+
+  votoChartData = computed<ChartConfiguration<'doughnut'>['data']>(() => {
+    const s = this.stats();
+    if (!s) return { labels: [], datasets: [] };
+    return {
+      labels: ['Sí', 'No'],
+      datasets: [{ data: [s.voto_electronico.si, s.voto_electronico.no], backgroundColor: ['#2E7D32', '#212121'], borderWidth: 0, hoverOffset: 8 }]
+    };
+  });
+
+  reeleccionChartData = computed<ChartConfiguration<'doughnut'>['data']>(() => {
+    const s = this.stats();
+    if (!s) return { labels: [], datasets: [] };
+    return {
+      labels: ['Sí', 'No'],
+      datasets: [{ data: [s.reeleccion_indefinida.si, s.reeleccion_indefinida.no], backgroundColor: ['#2E7D32', '#212121'], borderWidth: 0, hoverOffset: 8 }]
     };
   });
 
@@ -74,19 +90,7 @@ export class SurveyResultsComponent implements OnInit, OnDestroy {
     };
   });
 
-  votoChartData = computed<ChartConfiguration<'doughnut'>['data']>(() => {
-    const s = this.stats();
-    if (!s) return { labels: [], datasets: [] };
-    return {
-      labels: ['Sí', 'No'],
-      datasets: [{
-        data: [s.voto_electronico.si, s.voto_electronico.no],
-        backgroundColor: ['#2E7D32', '#212121'],
-        borderWidth: 0,
-        hoverOffset: 8
-      }]
-    };
-  });
+  // ── Chart options ───────────────────────────────────────────────
 
   doughnutOptions: ChartConfiguration<'doughnut'>['options'] = {
     responsive: true,
@@ -115,8 +119,7 @@ export class SurveyResultsComponent implements OnInit, OnDestroy {
       plugins: {
         legend: { display: false },
         datalabels: {
-          anchor: 'end',
-          align: 'end',
+          anchor: 'end', align: 'end',
           color: (ctx: any) => COLORS[ctx.dataIndex] ?? '#333',
           font: { weight: 'bold', size: 15 },
           formatter: (value: number) => total > 0 ? ((value / total) * 100).toFixed(1) + '%' : '0%'
@@ -133,9 +136,7 @@ export class SurveyResultsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
-    this.loadSessions();
-  }
+  ngOnInit(): void { this.loadSessions(); }
 
   ngOnDestroy(): void {
     this.unsubscribe();
@@ -150,21 +151,13 @@ export class SurveyResultsComponent implements OnInit, OnDestroy {
       const requestedId = this.route.snapshot.queryParamMap.get('session');
       if (requestedId) {
         const requested = sessions.find(s => s.id === requestedId);
-        if (requested) {
-          await this.selectSession(requested);
-          return;
-        }
+        if (requested) { await this.selectSession(requested); return; }
       }
 
       const active = sessions.find(s => s.is_active);
-      if (active) {
-        await this.selectSession(active);
-      } else if (sessions.length > 0) {
-        await this.selectSession(sessions[0]);
-      }
-    } catch {
-      // handle silently
-    } finally {
+      if (active) await this.selectSession(active);
+      else if (sessions.length > 0) await this.selectSession(sessions[0]);
+    } catch { /* silent */ } finally {
       this.loading.set(false);
     }
   }
@@ -175,11 +168,15 @@ export class SurveyResultsComponent implements OnInit, OnDestroy {
     this.lastResponseTime.set(null);
 
     await this.refreshStats();
+    await this.refreshLoans();
 
     if (session.is_active) {
       this.channel = this.surveyService.subscribeToResponses(session.id, () => {
         this.lastResponseTime.set(new Date());
         this.refreshStats();
+      });
+      this.loanChannel = this.surveyService.subscribeToLoanRequests(session.id, () => {
+        this.refreshLoans();
       });
     }
   }
@@ -192,39 +189,36 @@ export class SurveyResultsComponent implements OnInit, OnDestroy {
   private async refreshStats(): Promise<void> {
     const session = this.selectedSession();
     if (!session) return;
-
     const stats = await this.surveyService.getSessionStats(session.id);
     this.stats.set(stats);
     this.animateCount(stats.total_responses);
   }
 
+  private async refreshLoans(): Promise<void> {
+    const session = this.selectedSession();
+    if (!session) return;
+    const loans = await this.surveyService.getLoanRequests(session.id);
+    this.loanRequests.set(loans);
+  }
+
   private animateCount(target: number): void {
     if (this.countInterval) clearInterval(this.countInterval);
-
     const current = this.displayedCount();
     if (current === target) return;
-
     const diff = target - current;
     const steps = Math.min(Math.abs(diff), 30);
     const increment = diff / steps;
     let step = 0;
-
     this.countInterval = setInterval(() => {
       step++;
-      if (step >= steps) {
-        this.displayedCount.set(target);
-        clearInterval(this.countInterval);
-      } else {
-        this.displayedCount.set(Math.round(current + increment * step));
-      }
+      if (step >= steps) { this.displayedCount.set(target); clearInterval(this.countInterval); }
+      else { this.displayedCount.set(Math.round(current + increment * step)); }
     }, 30);
   }
 
   private unsubscribe(): void {
-    if (this.channel) {
-      this.channel.unsubscribe();
-      this.channel = null;
-    }
+    if (this.channel) { this.channel.unsubscribe(); this.channel = null; }
+    if (this.loanChannel) { this.loanChannel.unsubscribe(); this.loanChannel = null; }
   }
 
   getTimeSince(date: Date): string {
@@ -239,7 +233,9 @@ export class SurveyResultsComponent implements OnInit, OnDestroy {
     return ((value / total) * 100).toFixed(1);
   }
 
-  async logout(): Promise<void> {
-    await this.authService.signOut();
+  fmt(value: number): string {
+    return '$' + Math.round(value).toLocaleString('es-AR');
   }
+
+  async logout(): Promise<void> { await this.authService.signOut(); }
 }

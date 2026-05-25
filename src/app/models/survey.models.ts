@@ -10,34 +10,44 @@ export interface SurveySession {
 export interface SurveyResponse {
   id: string;
   session_id: string;
-  nombre_apellido: string | null;
-  dni: string | null;
-  telefono: string | null;
   conocia_lista: 'Sí' | 'No';
   opinion_propuestas: 'Sí' | 'No';
   voto_electronico: 'Sí' | 'No';
+  reeleccion_indefinida: 'Sí' | 'No';
   voto_simulado: 'NARANJA' | 'ROJA' | 'AMARILLA' | 'BLANCO' | null;
   propuesta_nueva: string | null;
   fingerprint_hash: string;
   created_at: string;
 }
 
+export interface LoanRequest {
+  id: string;
+  session_id: string;
+  fingerprint_hash: string;
+  monto: number;
+  cuotas: number;
+  interes_porcentaje: number;
+  monto_total: number;
+  cuota_mensual: number;
+  motivo: string;
+  created_at: string;
+}
+
 export interface SessionStats {
   total_responses: number;
-  conocia_lista: { si: number; no: number; nose: number };
-  opinion_propuestas: { si: number; no: number; nose: number };
-  voto_electronico: { si: number; no: number; nose: number };
+  conocia_lista: { si: number; no: number };
+  opinion_propuestas: { si: number; no: number };
+  voto_electronico: { si: number; no: number };
+  reeleccion_indefinida: { si: number; no: number };
   voto_simulado: { naranja: number; roja: number; amarilla: number; blanco: number };
   propuestas_nuevas: Array<{ text: string; created_at: string }>;
 }
 
 export interface SurveyFormData {
-  nombre_apellido: string;
-  dni: string;
-  telefono: string;
   conocia_lista: 'Sí' | 'No' | '';
   opinion_propuestas: 'Sí' | 'No' | '';
   voto_electronico: 'Sí' | 'No' | '';
+  reeleccion_indefinida: 'Sí' | 'No' | '';
   voto_simulado: 'NARANJA' | 'ROJA' | 'AMARILLA' | 'BLANCO' | '';
   propuesta_nueva: string;
 }

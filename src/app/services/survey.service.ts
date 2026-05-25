@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RealtimeChannel } from '@supabase/supabase-js';
 import { SupabaseService } from './supabase.service';
-import { SurveySession, SessionStats, SurveyFormData } from '../models/survey.models';
+import { SurveySession, SessionStats, SurveyFormData, LoanRequest } from '../models/survey.models';
 
 @Injectable({ providedIn: 'root' })
 export class SurveyService {
@@ -45,7 +45,6 @@ export class SurveyService {
     const { data: { user } } = await this.supabase.client.auth.getUser();
     if (!user) throw new Error('Not authenticated');
 
-    // End any active sessions first
     await this.supabase.client
       .from('survey_sessions')
       .update({ is_active: false, ended_at: new Date().toISOString() })
@@ -71,7 +70,6 @@ export class SurveyService {
   }
 
   async submitSurvey(sessionId: string, formData: SurveyFormData, fingerprintHash: string): Promise<void> {
-    // Check for duplicate
     const { data: existing } = await this.supabase.client
       .from('submission_controls')
       .select('id')
@@ -85,7 +83,6 @@ export class SurveyService {
       throw err;
     }
 
-    // Insert submission control
     const { error: controlError } = await this.supabase.client
       .from('submission_controls')
       .insert({ session_id: sessionId, fingerprint_hash: fingerprintHash, ip_address: '0.0.0.0' });
@@ -99,23 +96,50 @@ export class SurveyService {
       throw controlError;
     }
 
-    // Insert survey response
     const { error: responseError } = await this.supabase.client
       .from('survey_responses')
       .insert({
         session_id: sessionId,
-        nombre_apellido: formData.nombre_apellido || null,
-        dni: formData.dni || null,
-        telefono: formData.telefono || null,
         conocia_lista: formData.conocia_lista,
         opinion_propuestas: formData.opinion_propuestas,
-        voto_electronico: formData.voto_electronico || null,
+        voto_electronico: formData.voto_electronico,
+        reeleccion_indefinida: formData.reeleccion_indefinida,
         voto_simulado: formData.voto_simulado || null,
         propuesta_nueva: formData.propuesta_nueva || null,
         fingerprint_hash: fingerprintHash
       });
 
     if (responseError) throw responseError;
+  }
+
+  async submitLoanRequest(
+    sessionId: string,
+    fingerprintHash: string,
+    data: {
+      monto: number;
+      cuotas: number;
+      interes_porcentaje: number;
+      monto_total: number;
+      cuota_mensual: number;
+      motivo: string;
+    }
+  ): Promise<void> {
+    const { error } = await this.supabase.client
+      .from('loan_requests')
+      .insert({ session_id: sessionId, fingerprint_hash: fingerprintHash, ...data });
+
+    if (error) throw error;
+  }
+
+  async getLoanRequests(sessionId: string): Promise<LoanRequest[]> {
+    const { data, error } = await this.supabase.client
+      .from('loan_requests')
+      .select('*')
+      .eq('session_id', sessionId)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    return data ?? [];
   }
 
   async getSessionStats(sessionId: string): Promise<SessionStats> {
@@ -141,6 +165,16 @@ export class SurveyService {
       .channel(`responses-${sessionId}`)
       .on('postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'survey_responses', filter: `session_id=eq.${sessionId}` },
+        () => callback()
+      )
+      .subscribe();
+  }
+
+  subscribeToLoanRequests(sessionId: string, callback: () => void): RealtimeChannel {
+    return this.supabase.client
+      .channel(`loans-${sessionId}`)
+      .on('postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'loan_requests', filter: `session_id=eq.${sessionId}` },
         () => callback()
       )
       .subscribe();
